@@ -1,0 +1,14 @@
+from turtle import *
+
+import turtle
+
+n = 32
+
+tur = turtle.Turtle()
+
+for i in range(n * 4):
+    tur.forward(i * 8)
+
+    tur.right(120)
+
+turtle.done()
