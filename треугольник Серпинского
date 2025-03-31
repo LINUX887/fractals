@@ -1,0 +1,42 @@
+from turtle import *
+import turtle
+
+def drawTriangle(points,color,turtle):
+    turtle.fillcolor(color)
+    turtle.up()
+    turtle.goto(points[0][0],points[0][1])
+    turtle.down()
+    turtle.begin_fill()
+    turtle.goto(points[1][0],points[1][1])
+    turtle.goto(points[2][0],points[2][1])
+    turtle.goto(points[0][0],points[0][1])
+    turtle.end_fill()
+
+def getmid(p1,p2):
+    return ( (p1[0]+p2[0]) / 2, (p1[1] + p2[1]) / 2)
+
+def Sierpinski(points,degree,myTurtle):
+    colormap = ['pink','red','black','violet']
+    drawTriangle(points,colormap[degree],myTurtle)
+    if degree > 0:
+        Sierpinski([points[0],
+                        getmid(points[0], points[1]),
+                        getmid(points[0], points[2])],
+                   degree-1, myTurtle)
+        Sierpinski([points[1],
+                        getmid(points[0], points[1]),
+                        getmid(points[1], points[2])],
+                   degree-1, myTurtle)
+        Sierpinski([points[2],
+                        getmid(points[2], points[1]),
+                        getmid(points[0], points[2])],
+                   degree-1, myTurtle)
+
+def mainwin():
+   tur = turtle.Turtle()
+   ws = turtle.Screen()
+   mypoints = [[-100,-50],[0,100],[100,-50]]
+   Sierpinski(mypoints,3,tur)
+   ws.exitonclick()
+
+mainwin()
