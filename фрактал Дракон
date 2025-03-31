@@ -1,0 +1,53 @@
+import turtle
+import random
+
+def dragon_string(myString):
+    mid = len(myString) // 2
+    altString1 = myString[0:mid]
+    altString2 = myString[(mid + 1):len(myString)]
+
+    if myString[mid] == "l":
+        altString1 += "r"
+    else:
+        altString1 += "l"
+    altString = altString1 + altString2
+
+    myString = myString + "r" + altString
+
+    return myString
+
+
+def dragon_draw(level):
+    string0 = "aaaa"
+    for i in range(level):
+        string0 = dragon_string(string0)
+    print(string0)
+
+    window = turtle.Screen()
+    window.bgcolor("black")
+    dragon = turtle.Turtle()
+    dragon.shape("classic")
+    dragon.penup()
+    dragon.goto(150, 50)
+    dragon.pendown()
+    dragon.speed(0)
+    window.colormode(255)
+
+    dragon.forward(5)
+    for i in range(len(string0)):
+        r = random.randint(0, 255)
+        g = random.randint(0, 255)
+        b = random.randint(0, 255)
+        dragon.color(r, g, b)
+
+        if string0[i] == "r":
+            dragon.right(90)
+            dragon.forward(5)
+        else:
+            dragon.left(90)
+            dragon.forward(5)
+
+    window.exitonclick()
+
+
+dragon_draw(10)
