@@ -1,0 +1,39 @@
+import time
+import datetime
+import turtle
+
+tur = turtle.Turtle()
+tur1 = turtle.Turtle()
+screen = turtle.Screen()
+screen.bgcolor("white")
+second = datetime.datetime.now().second
+minute = datetime.datetime.now().minute
+hour = datetime.datetime.now().hour
+tur1.pensize(4)
+tur1.color('violet')
+tur1.penup()
+tur1.goto(-20, 0)
+tur1.pendown()
+for i in range(2):
+    tur1.forward(220)
+    tur1.left(90)
+    tur1.forward(70)
+    tur1.left(90)
+tur1.hideturtle()
+while True:
+    tur.hideturtle()
+    tur.clear()
+    tur.write(str(hour).zfill(2)
+              + ":" + str(minute).zfill(2) + ":"
+              + str(second).zfill(2),
+              font=("Arial", 35, "bold"))
+    time.sleep(1)
+    second += 1
+    if second == 60:
+        second = 0
+        minute += 1
+    if minute == 60:
+        minute = 0
+        hour += 1
+    if hour == 13:
+        hour = 1
