@@ -1,34 +1,49 @@
-import turtle
+from PIL import Image
+import numpy as np
+import time
 
-screen = turtle.Screen()
-screen.setup(width=512, height=512)
+# Размеры изображения
+width, height = 512, 512
 
-tur = turtle.Turtle()
-tur.speed(0)
-tur.hideturtle()
-
-xa = -2.0
-xb = 1.0
-ya = -1.5
-yb = 1.5
+# Область комплексной плоскости
+xa, xb = -2.0, 1.0
+ya, yb = -1.5, 1.5
 maxIt = 255
-turx = 512
-tury = 512
-screen.colormode(255)
-for y in range(tury):
-    zy = y * (yb - ya) / (tury - 1) + ya
-    for x in range(turx):
-        zx = x * (xb - xa) / (turx - 1) + xa
+
+# Создаем новое изображение
+img = Image.new('RGB', (width, height), (0, 0, 0))
+pixels = img.load()
+
+start_time = time.time()
+
+# Используем numpy для векторизации вычислений
+x = np.linspace(xa, xb, width)
+y = np.linspace(ya, yb, height)
+
+for py in range(height):
+    zy = y[py]
+    for px in range(width):
+        zx = x[px]
         z = complex(zx, zy)
         c = z
         for i in range(maxIt):
             if abs(z) > 2.0:
                 break
             z = z * z + c
-        color = (i % 4 * 64, i % 8 * 32, i % 16 * 16)
-        tur.penup()
-        tur.goto(x - turx/2, tury/2 - y)
-        tur.pendown()
-        tur.dot(1, color)
+            
+        # Если точка внутри множества (цикл дошел до конца), цвет черный
+        if i == maxIt - 1:
+            color = (0, 0, 0)
+        else:
+            # Иначе используем схему цветов
+            color = (i % 4 * 64, i % 8 * 32, i % 16 * 16)
+            
+        pixels[px, py] = color
 
-screen.exitonclick()
+end_time = time.time()
+print(f"Время выполнения: {end_time - start_time:.2f} секунд")
+
+# Показываем изображение
+img.show()
+# Опционально сохраняем изображение
+img.save('mandelbrot.png')
